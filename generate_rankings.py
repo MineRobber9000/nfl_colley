@@ -19,4 +19,4 @@ for i,t in enumerate(rankings,1):
 with open("rankings.csv","w") as f:
 	w=csv.writer(f)
 	w.writerow(["Rank","Team","Score"])
-	w.writerows([[i,x[0],round(x[1],6)] for i,x in enumerate(rankings,1)])
+	w.writerows([[i,x[0],"{:.06f}".format(round(x[1],6))] for i,x in enumerate(rankings,1)])
