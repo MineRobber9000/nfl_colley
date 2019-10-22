@@ -10,7 +10,7 @@ def get(year,include_postseason=False,offset=None):
 		u+="&offset={!s}".format(offset)
 	r=requests.get(u)
 	r.raise_for_status()
-	return BeautifulSoup(r.content)
+	return BeautifulSoup(r.content,"html.parser")
 
 def soup2csv(soup):
 	table = soup.table
@@ -42,13 +42,14 @@ def uniq(l):
 	return [json.loads(x) for x in s]
 
 def getyear(year,include_postseason=False):
+	print("Loading page 1...")
 	soup = get(year,include_postseason)
 	out = soup2csv(soup)
 	page = 1
 	while soup.find("a",{"class":"next"}): # next page
 		print("Page {!s} finished!".format(page))
-		sleep(3) # 3 seconds sleep (about how long it takes me to scroll to the bottom of the page IRL)
 		print("Loading page {!s}...".format(page+1))
+		sleep(3) # 3 seconds sleep (about how long it takes me to scroll to the bottom of the page IRL)
 		soup = get(year,include_postseason,offset=(page*100))
 		page+=1
 		out.extend(soup2csv(soup))
