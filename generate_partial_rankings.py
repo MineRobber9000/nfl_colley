@@ -17,3 +17,5 @@ rankings = c.process(weight_fn=adjust_ot,use_margin=True)
 for i,t in enumerate(rankings,1):
 	team,score = t
 	print("#{!s} {} (rating: {:.06f})".format(i,abbr2team.team_name(team),score))
+
+with open("rankings.part.csv","w") as f: csv.writer(f).writerows([[i]+list(ranking) for i,ranking in enumerate(rankings,1)])
